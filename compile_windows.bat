@@ -1,0 +1,25 @@
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\main.cpp -o build\main.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\assets.cpp -o build\assets.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\calc_helper.cpp -o build\calc_helper.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\logistics_network.cpp -o build\logistics_network.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\command_center.cpp -o build\command_center.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\file_handler.cpp -o build\file_handler.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\drill.cpp -o build\drill.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\key_bindings.cpp -o build\key_bindings.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\main_menu.cpp -o build\main_menu.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\logistics_center.cpp -o build\logistics_center.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\annihilator.cpp -o build\annihilator.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\cannon.cpp -o build\cannon.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\settings.cpp -o build\settings.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\settings_menu.cpp -o build\settings_menu.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\tutorial.cpp -o build\tutorial.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\generator.cpp -o build\generator.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\supplies.cpp -o build\supplies.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\growth.cpp -o build\growth.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\world.cpp -o build\world.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\input.cpp -o build\input.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\pause_menu.cpp -o build\pause_menu.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\gui.cpp -o build\gui.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\harvester.cpp -o build\harvester.o
+g++.exe -Wall -O2 -IC:\SFML-2.5.1\include -Iinclude -Isrc -c C:\Overgrown\src\build_controller.cpp -o build\build_controller.o
+g++.exe -LC:\SFML-2.5.1\lib -o Overgrown.exe build\main.o build\build_controller.o build\harvester.o build\gui.o build\pause_menu.o build\input.o build\world.o build\growth.o build\supplies.o build\generator.o build\tutorial.o build\settings_menu.o build\settings.o build\cannon.o build\annihilator.o build\assets.o build\calc_helper.o build\logistics_network.o build\command_center.o build\file_handler.o build\drill.o build\key_bindings.o build\main_menu.o build\logistics_center.o -s -lstdc++fs -lmingw32 -luser32 -lgdi32 -lwinmm -ldxguid -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -mwindows

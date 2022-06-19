@@ -1,0 +1,3 @@
+#! /bin/bash
+
+g++ -std=c++11 -F/Library/Frameworks -Iinclude -framework sfml-window -framework sfml-graphics -framework sfml-audio -framework sfml-system main.cpp $PWD/src/key_bindings.cpp $PWD/src/tutorial.cpp $PWD/src/logistics_network.cpp $PWD/src/command_center.cpp $PWD/src/logistics_center.cpp $PWD/src/annihilator.cpp $PWD/src/cannon.cpp $PWD/src/generator.cpp $PWD/src/drill.cpp $PWD/src/supplies.cpp $PWD/src/calc_helper.cpp $PWD/src/build_controller.cpp $PWD/src/harvester.cpp $PWD/src/gui.cpp $PWD/src/pause_menu.cpp $PWD/src/input.cpp $PWD/src/file_handler.cpp $PWD/src/settings.cpp $PWD/src/main_menu.cpp $PWD/src/settings_menu.cpp $PWD/src/world.cpp $PWD/src/assets.cpp $PWD/src/growth.cpp -o Overgrown
