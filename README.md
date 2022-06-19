@@ -34,10 +34,6 @@ For 32 bit systems you will need 'MinGW Builds 7.3.0 (32-bit)' and 'GCC 7.3.0 Mi
 Clone this repository to C:\ so the source code is present at C:\Overgrown <br />
 Extract the downloaded SFML package to C:\ so SFML is present at C:\SFML-2.5.1 <br />
 Run the compile_windows.bat script <br />
-Run Overgrown.exe to play the game <br />
-To run the game in a window, use the command line argument '-window' <br />
-ie: 'Overgrown.exe -window 1280 720' <br />
-The window cannot be smaller than 1280x720 <br />
 
 _Mac:_ <br />
 
@@ -46,17 +42,9 @@ Install g++ as described here http://www.edparrish.net/common/macgpp.php#install
 Download SFML here https://www.sfml-dev.org/download/sfml/2.5.1/ <br />
 Copy the contents of the SFML Frameworks and extlibs directories to /Library/Frameworks <br />
 Run the compile_mac.sh script <br />
-Run the Overgrown executable to play the game <br />
-To run the game in a window, use the command line argument '-window' <br />
-ie: './Overgrown -window 1280 720' <br />
-The window cannot be smaller than 1280x720 <br />
 
 _Linux:_ <br />
 
 Clone this repository. <br />
 Install SFML, ie: 'sudo apt-get install libsfml-dev' <br />
 Run the compile_linux.sh script <br />
-Run the Overgrown executable to play the game <br />
-To run the game in a window, use the command line argument '-window' <br />
-ie: './Overgrown -window 1280 720' <br />
-The window cannot be smaller than 1280x720 <br />
