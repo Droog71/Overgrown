@@ -2,9 +2,9 @@ Overgrown
 ===============
 
 Overgrown is a real time strategy game in which your enemy is a mold-like organic substance.<br />
-Inspired by Creeper World and FortressCraft Evolved.<br />
-Overgrown is a free, open source game developed using C++ and SFML.<br />
-The code is licensed AGPL-3.0 and the artwork and sound effects are licensed CC BY 3.0.<br />
+Inspired by <a href=https://knucklecracker.com/creeperworld/cw.php>Creeper World</a> and <a href=https://store.steampowered.com/app/254200/FortressCraft_Evolved/>FortressCraft Evolved.</a><br />
+Overgrown is a free, open source game developed using <a href=https://en.wikipedia.org/wiki/C%2B%2B>C++</a> and <a href=https://www.sfml-dev.org/>SFML</a>.<br />
+The code is licensed <a href=https://www.gnu.org/licenses/agpl-3.0.en.html>AGPL-3.0</a> and the artwork and sound effects are licensed <a href=https://creativecommons.org/licenses/by/3.0/>CC BY 3.0</a>.<br />
 
 <img src="https://i.imgur.com/or7svzt.png" alt="Overgrown" width="427" height="240">
 
