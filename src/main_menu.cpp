@@ -43,7 +43,7 @@ void main_menu::delete_save_game(int i)
     while ((pos = saves.find(delimiter)) != std::string::npos)
     {
         token = saves.substr(0, pos);
-        if (token != load_game_labels[i].getString())
+        if (token != "" && token != load_game_labels[i].getString())
         {
             new_saves += token + "\n";
         }
@@ -95,69 +95,72 @@ void main_menu::draw_load_menu(sf::RenderWindow &window)
     // Load game buttons
     for (unsigned int i = 0; i < load_game_labels.size(); i++)
     {
-        float x = window.getView().getSize().x / 2 - 150;
+        float x = window.getView().getSize().x / 2 - (150 * gui_scale);
 
-        load_game_buttons[i] = sf::VertexArray(sf::Quads, 4);
-        load_game_buttons[i][0].position = sf::Vector2f(x, (250 + i * 35) - 4);
-        load_game_buttons[i][1].position = sf::Vector2f(x, (250 + i * 35) + 24);
-        load_game_buttons[i][2].position = sf::Vector2f(x + 225, (250 + i * 35) + 24);
-        load_game_buttons[i][3].position = sf::Vector2f(x + 225, (250 + i * 35) - 4);
-
-        sf::VertexArray load_game_shadow = sf::VertexArray(sf::Quads, 4);
-        load_game_shadow[0].position = sf::Vector2f(x, (250 + i * 35) - 4);
-        load_game_shadow[1].position = sf::Vector2f(x, (250 + i * 35) + 27);
-        load_game_shadow[2].position = sf::Vector2f(x + 228, (250 + i * 35) + 27);
-        load_game_shadow[3].position = sf::Vector2f(x + 228, (250 + i * 35) - 4);
-
-        load_game_shadow[0].color = sf::Color::Black;
-        load_game_shadow[1].color = sf::Color::Black;
-        load_game_shadow[2].color = sf::Color::Black;
-        load_game_shadow[3].color = sf::Color::Black;
-
-        if (load_game_buttons[i].getBounds().contains(mouse_position.x, mouse_position.y))
+        for (unsigned int i = 0; i < load_game_labels.size(); i++)
         {
-            load_game_buttons[i][0].color = sf::Color(25, 76, 76, 255);
-            load_game_buttons[i][1].color = sf::Color(25, 76, 76, 255);
-            load_game_buttons[i][2].color = sf::Color(25, 76, 76, 255);
-            load_game_buttons[i][3].color = sf::Color(25, 76, 76, 255);
-        }
-        else
-        {
-            load_game_buttons[i][0].color = sf::Color(16, 51, 51, 255);
-            load_game_buttons[i][1].color = sf::Color(16, 51, 51, 255);
-            load_game_buttons[i][2].color = sf::Color(16, 51, 51, 255);
-            load_game_buttons[i][3].color = sf::Color(16, 51, 51, 255);
-        }
+            load_game_buttons[i] = sf::VertexArray(sf::Quads, 4);
+            load_game_buttons[i][0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+            load_game_buttons[i][1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+            load_game_buttons[i][2].position = sf::Vector2f(x + 225 * gui_scale, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+            load_game_buttons[i][3].position = sf::Vector2f(x + 225 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
-        load_game_labels[i].setFont(resources->exoplanetaria);
-        load_game_labels[i].setCharacterSize(16);
-        load_game_labels[i].setFillColor(sf::Color::Black);
-        load_game_labels[i].setPosition(x + 20, 250 + (i * 35));
+            sf::VertexArray load_game_shadow = sf::VertexArray(sf::Quads, 4);
+            load_game_shadow[0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+            load_game_shadow[1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+            load_game_shadow[2].position = sf::Vector2f(x + 228 * gui_scale, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+            load_game_shadow[3].position = sf::Vector2f(x + 228 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
-        if (load_game_labels[i].getString() != "")
-        {
-            window.draw(load_game_shadow);
-            window.draw(load_game_buttons[i]);
-            window.draw(load_game_labels[i]);
+            load_game_shadow[0].color = sf::Color::Black;
+            load_game_shadow[1].color = sf::Color::Black;
+            load_game_shadow[2].color = sf::Color::Black;
+            load_game_shadow[3].color = sf::Color::Black;
+
+            if (load_game_buttons[i].getBounds().contains(mouse_position.x, mouse_position.y))
+            {
+                load_game_buttons[i][0].color = sf::Color(25, 76, 76, 255);
+                load_game_buttons[i][1].color = sf::Color(25, 76, 76, 255);
+                load_game_buttons[i][2].color = sf::Color(25, 76, 76, 255);
+                load_game_buttons[i][3].color = sf::Color(25, 76, 76, 255);
+            }
+            else
+            {
+                load_game_buttons[i][0].color = sf::Color(16, 51, 51, 255);
+                load_game_buttons[i][1].color = sf::Color(16, 51, 51, 255);
+                load_game_buttons[i][2].color = sf::Color(16, 51, 51, 255);
+                load_game_buttons[i][3].color = sf::Color(16, 51, 51, 255);
+            }
+
+            load_game_labels[i].setFont(resources->exoplanetaria);
+            load_game_labels[i].setCharacterSize(16 * gui_scale);
+            load_game_labels[i].setFillColor(sf::Color::Black);
+            load_game_labels[i].setPosition(x + 20 * gui_scale, 300 + i * 35  * gui_scale);
+
+            if (load_game_labels[i].getString() != "")
+            {
+                window.draw(load_game_shadow);
+                window.draw(load_game_buttons[i]);
+                window.draw(load_game_labels[i]);
+            }
         }
     }
 
     // Delete save buttons
     for (unsigned int i = 0; i < load_game_labels.size(); i++)
     {
-        float x = window.getView().getSize().x / 2 + 100;
+        float x = window.getView().getSize().x / 2 + 100 * gui_scale;
 
         delete_save_buttons[i] = sf::VertexArray(sf::Quads, 4);
-        delete_save_buttons[i][0].position = sf::Vector2f(x, (250 + i * 35) - 4);
-        delete_save_buttons[i][1].position = sf::Vector2f(x, (250 + i * 35) + 24);
-        delete_save_buttons[i][2].position = sf::Vector2f(x + 70, (250 + i * 35) + 24);
-        delete_save_buttons[i][3].position = sf::Vector2f(x + 70, (250 + i * 35) - 4);
+        delete_save_buttons[i][0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+        delete_save_buttons[i][1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+        delete_save_buttons[i][2].position = sf::Vector2f(x + 70 * gui_scale, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+        delete_save_buttons[i][3].position = sf::Vector2f(x + 70 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
         sf::VertexArray delete_save_shadow = sf::VertexArray(sf::Quads, 4);
-        delete_save_shadow[0].position = sf::Vector2f(x, (250 + i * 35) - 4);
-        delete_save_shadow[1].position = sf::Vector2f(x, (250 + i * 35) + 27);
-        delete_save_shadow[2].position = sf::Vector2f(x + 73, (250 + i * 35) + 27);
-        delete_save_shadow[3].position = sf::Vector2f(x + 73, (250 + i * 35) - 4);
+        delete_save_shadow[0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+        delete_save_shadow[1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+        delete_save_shadow[2].position = sf::Vector2f(x + 73 * gui_scale, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+        delete_save_shadow[3].position = sf::Vector2f(x + 73 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
         delete_save_shadow[0].color = sf::Color::Black;
         delete_save_shadow[1].color = sf::Color::Black;
@@ -180,9 +183,9 @@ void main_menu::draw_load_menu(sf::RenderWindow &window)
         }
 
         delete_save_labels[i].setFont(resources->exoplanetaria);
-        delete_save_labels[i].setCharacterSize(16);
+        delete_save_labels[i].setCharacterSize(16 * gui_scale);
         delete_save_labels[i].setFillColor(sf::Color::Black);
-        delete_save_labels[i].setPosition(x + 10, 250 + (i * 35));
+        delete_save_labels[i].setPosition(x + 10 * gui_scale, 300 + i * 35 * gui_scale);
         delete_save_labels[i].setString("DELETE");
 
         if (load_game_labels[i].getString() != "")
@@ -193,7 +196,7 @@ void main_menu::draw_load_menu(sf::RenderWindow &window)
         }
     }
 
-    // Cancel Button
+    // Cancel button
     if (resources->cancel_button_sprite.getGlobalBounds().contains(mouse_position.x, mouse_position.y))
     {
         resources->cancel_button_sprite.setTexture(resources->cancel_button_hover_texture);
@@ -202,9 +205,11 @@ void main_menu::draw_load_menu(sf::RenderWindow &window)
     {
         resources->cancel_button_sprite.setTexture(resources->cancel_button_texture);
     }
-    float bx = (window.getView().getSize().x / 2) - (resources->cancel_button_texture.getSize().x / 2);
-    float by = 200;
+    float bx = (window.getView().getSize().x / 2) - (resources->cancel_button_texture.getSize().x / 2) * gui_scale;
+    float by = 150 * gui_scale;
+    by = gui_scale < 1.3 ? 225 : by;
     sf::Vector2f bv(bx, by);
+    resources->cancel_button_sprite.setScale(gui_scale, gui_scale);
     resources->cancel_button_sprite.setPosition(bv);
     window.draw(resources->cancel_button_sprite);
 }
@@ -291,9 +296,12 @@ bool main_menu::draw_menu(sf::RenderWindow &window, world &game_world, float fra
                             {
                                 if (load_game_buttons[i].getBounds().contains(mouse_position.x, mouse_position.y))
                                 {
-                                    load_game(cwd, game_world, window, load_game_labels[i].getString());
-                                    load_prompt_open = false;
-                                    show_load_notice = true;
+                                    if (load_game_labels[i].getString() != "")
+                                    {
+                                        load_game(cwd, game_world, window, load_game_labels[i].getString());
+                                        load_prompt_open = false;
+                                        show_load_notice = true;
+                                    }
                                 }
                             }
 
@@ -435,12 +443,14 @@ bool main_menu::draw_menu(sf::RenderWindow &window, world &game_world, float fra
         }
         else if (show_load_notice == true && show_delete_notice == false)
         {
-            sf::Vector2f text_pos;
-            text_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2);
-            text_pos.y = (window.getView().getSize().y / 2) - 100;
+            sf::Vector2f notice_pos;
+            notice_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2) * gui_scale * 1.125;
+            notice_pos.y = (window.getView().getSize().y / 2) - 120 * gui_scale;
+            resources->notice.setCharacterSize(24 * gui_scale);
             resources->notice.setString("GAME LOADED");
-            resources->notice.setPosition(text_pos);
+            resources->notice.setPosition(notice_pos);
             window.draw(resources->notice);
+            resources->notice.setCharacterSize(24);
 
             load_notice_timer += 10 * frame_time;
             if (load_notice_timer >= 30)
@@ -453,12 +463,14 @@ bool main_menu::draw_menu(sf::RenderWindow &window, world &game_world, float fra
         }
         else if (show_load_notice == false && show_delete_notice == true)
         {
-            sf::Vector2f text_pos;
-            text_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2);
-            text_pos.y = (window.getView().getSize().y / 2) - 100;
+            sf::Vector2f notice_pos;
+            notice_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2) * gui_scale * 1.125;
+            notice_pos.y = (window.getView().getSize().y / 2) - 120 * gui_scale;
+            resources->notice.setCharacterSize(24 * gui_scale);
             resources->notice.setString("SAVE DELETED");
-            resources->notice.setPosition(text_pos);
+            resources->notice.setPosition(notice_pos);
             window.draw(resources->notice);
+            resources->notice.setCharacterSize(24);
 
             delete_notice_timer += 10 * frame_time;
             if (delete_notice_timer >= 30)

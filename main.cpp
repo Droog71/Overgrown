@@ -179,6 +179,7 @@ int main(int argc, char * argv[])
             if (m_menu.new_game == true)
             {
                 tutorial_game = m_menu.tutorial;
+                tut.visible = tutorial_game;
                 m_menu.tutorial = false;
                 new_game(window);
             }
@@ -194,7 +195,7 @@ int main(int argc, char * argv[])
                 }
                 else
                 {
-                    struct input_event_params input_e_params = { event, p_menu, builder, game_world, mouse_pos };
+                    struct input_event_params input_e_params = { event, p_menu, builder, game_world, tutorial_game, tut, kb, mouse_pos, zoom };
                     game_input.handle_events(input_e_params);
 
                     struct gui_event_params gui_e_params = { window, p_menu, game_world, builder, event, mouse_pos };
@@ -367,8 +368,8 @@ int main(int argc, char * argv[])
                         if (game_world.areas[i].harvesters[l].fired == true)
                         {
                             sf::VertexArray ray(sf::LinesStrip, 2);
-                            float ray_x = game_world.areas[i].harvesters[l].position.x + 8;
-                            float ray_y = game_world.areas[i].harvesters[l].position.y + 8;
+                            float ray_x = game_world.areas[i].harvesters[l].position.x + 8 * zoom.x;
+                            float ray_y = game_world.areas[i].harvesters[l].position.y + 8 * zoom.y;
                             ray[0].position.x = ray_x;
                             ray[0].position.y = ray_y;
                             ray[1].position = game_world.areas[i].harvesters[l].target;
@@ -395,12 +396,12 @@ int main(int argc, char * argv[])
                             if (game_world.areas[i].cannons[l].target != sf::Vector2f(0, 0))
                             {
                                 sf::VertexArray ray = sf::VertexArray(sf::Triangles, 3);
-                                float ray_x_0 = game_world.areas[i].cannons[l].position.x + 18;
-                                float ray_y_0 = game_world.areas[i].cannons[l].position.y + 18;
-                                float ray_x_1 = game_world.areas[i].cannons[l].position.x + 16;
-                                float ray_y_1 = game_world.areas[i].cannons[l].position.y + 16;
-                                float ray_x_2 = game_world.areas[i].cannons[l].target.x + 8;
-                                float ray_y_2 = game_world.areas[i].cannons[l].target.y + 8;
+                                float ray_x_0 = game_world.areas[i].cannons[l].position.x + 18 * zoom.x;
+                                float ray_y_0 = game_world.areas[i].cannons[l].position.y + 18 * zoom.y;
+                                float ray_x_1 = game_world.areas[i].cannons[l].position.x + 16 * zoom.x;
+                                float ray_y_1 = game_world.areas[i].cannons[l].position.y + 16 * zoom.y;
+                                float ray_x_2 = game_world.areas[i].cannons[l].target.x + 8* zoom.x;
+                                float ray_y_2 = game_world.areas[i].cannons[l].target.y + 8* zoom.y;
                                 ray[0].position = sf::Vector2f(ray_x_0, ray_y_0);
                                 ray[1].position = sf::Vector2f(ray_x_1, ray_y_1);
                                 ray[2].position = sf::Vector2f(ray_x_2, ray_y_2);
@@ -424,10 +425,10 @@ int main(int argc, char * argv[])
                         sf::VertexArray meter(sf::LinesStrip, 2);
                         float power_buffer = game_world.areas[i].annihilators[l].power_buffer;
                         float meter_x = game_world.areas[i].annihilators[l].position.x;
-                        float meter_y = game_world.areas[i].annihilators[l].position.y + 30;
+                        float meter_y = game_world.areas[i].annihilators[l].position.y + 30 * zoom.y;
                         meter[0].position.x = meter_x;
                         meter[0].position.y = meter_y;
-                        meter[1].position.x = meter_x + (power_buffer * 0.02f);
+                        meter[1].position.x = meter_x + (power_buffer * 0.02f) * zoom.x;
                         meter[1].position.y = meter_y;
                         meter[0].color = sf::Color::Yellow;
                         meter[1].color = sf::Color::Yellow;
@@ -442,12 +443,12 @@ int main(int argc, char * argv[])
                             if (game_world.areas[i].annihilators[l].target != sf::Vector2f(0, 0))
                             {
                                 sf::VertexArray ray = sf::VertexArray(sf::Triangles, 3);
-                                float ray_x_0 = game_world.areas[i].annihilators[l].position.x + 24;
-                                float ray_y_0 = game_world.areas[i].annihilators[l].position.y + 24;
-                                float ray_x_1 = game_world.areas[i].annihilators[l].position.x + 10;
-                                float ray_y_1 = game_world.areas[i].annihilators[l].position.y + 10;
-                                float ray_x_2 = game_world.areas[i].annihilators[l].target.x + 16;
-                                float ray_y_2 = game_world.areas[i].annihilators[l].target.y + 16;
+                                float ray_x_0 = game_world.areas[i].annihilators[l].position.x + 24 * zoom.x;
+                                float ray_y_0 = game_world.areas[i].annihilators[l].position.y + 24 * zoom.y;
+                                float ray_x_1 = game_world.areas[i].annihilators[l].position.x + 10 * zoom.x;
+                                float ray_y_1 = game_world.areas[i].annihilators[l].position.y + 10 * zoom.y;
+                                float ray_x_2 = game_world.areas[i].annihilators[l].target.x + 16 * zoom.x;
+                                float ray_y_2 = game_world.areas[i].annihilators[l].target.y + 16 * zoom.y;
                                 ray[0].position = sf::Vector2f(ray_x_0, ray_y_0);
                                 ray[1].position = sf::Vector2f(ray_x_1, ray_y_1);
                                 ray[2].position = sf::Vector2f(ray_x_2, ray_y_2);
@@ -668,6 +669,12 @@ int main(int argc, char * argv[])
             {
                 if (tutorial_game == true)
                 {
+                    sf::Vector2i pos = game_world.player_coordinates;
+                    int index = game_world.get_area_index(pos);
+                    if (tut.step == 7 && game_world.areas[index].area_growth.alive == false)
+                    {
+                        tut.visible = true;
+                    }
                     victory = tut.completed;
                 }
                 else

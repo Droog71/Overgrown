@@ -5,6 +5,7 @@
 #include <assets.h>
 #include <string.h>
 #include <iostream>
+#include <settings.h>
 #include <harvester.h>
 #include <pause_menu.h>
 #include <file_handler.h>

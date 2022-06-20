@@ -28,11 +28,13 @@ void pause_menu::init(std::string cwd, assets* resources)
 void pause_menu::display_notice(sf::RenderWindow &window, std::string notice, float frame_time)
 {
     sf::Vector2f notice_pos;
-    notice_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2);
-    notice_pos.y = (window.getView().getSize().y / 2) - 100;
+    notice_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2) * gui_scale * 1.5;
+    notice_pos.y = (window.getView().getSize().y / 2) - 120 * gui_scale;
+    resources->notice.setCharacterSize(24 * gui_scale);
     resources->notice.setString(notice);
     resources->notice.setPosition(notice_pos);
     window.draw(resources->notice);
+    resources->notice.setCharacterSize(24);
 
     notice_timer += 10 * frame_time;
     if (notice_timer >= 30)
@@ -106,7 +108,10 @@ void pause_menu::handle_events(sf::RenderWindow &window, sf::Event event, world 
                         {
                             if (saved_game_buttons[i].getBounds().contains(mouse_position.x, mouse_position.y))
                             {
-                                save_game(i, game_world);
+                                if (saved_game_labels[i].getString() != "")
+                                {
+                                    save_game(i, game_world);
+                                }
                             }
                         }
 
@@ -143,7 +148,7 @@ void pause_menu::handle_events(sf::RenderWindow &window, sf::Event event, world 
 
         if (event.type == sf::Event::TextEntered && save_menu_open == true)
         {
-            if (event.text.unicode != '\b' && event.text.unicode != '`' && input.getSize() < 24)
+            if (event.text.unicode != '\b' && event.text.unicode != '`' && input.getSize() < 20)
             {
                 input += event.text.unicode;
                 resources->input_text.setString(input);
@@ -193,21 +198,21 @@ void pause_menu::handle_events(sf::RenderWindow &window, sf::Event event, world 
 // Draws butons associated with saved games
 void pause_menu::draw_saved_game_buttons(sf::RenderWindow &window, sf::Vector2i mouse_position)
 {
-    float x = window.getView().getSize().x / 2 - 150;
+    float x = window.getView().getSize().x / 2 - (150 * gui_scale);
 
     for (unsigned int i = 0; i < saved_game_labels.size(); i++)
     {
         saved_game_buttons[i] = sf::VertexArray(sf::Quads, 4);
-        saved_game_buttons[i][0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        saved_game_buttons[i][1].position = sf::Vector2f(x, (200 + i * 35) + 24);
-        saved_game_buttons[i][2].position = sf::Vector2f(x + 225, (200 + i * 35) + 24);
-        saved_game_buttons[i][3].position = sf::Vector2f(x + 225, (200 + i * 35) - 4);
+        saved_game_buttons[i][0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+        saved_game_buttons[i][1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+        saved_game_buttons[i][2].position = sf::Vector2f(x + 225 * gui_scale, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+        saved_game_buttons[i][3].position = sf::Vector2f(x + 225 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
         sf::VertexArray saved_game_shadow = sf::VertexArray(sf::Quads, 4);
-        saved_game_shadow[0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        saved_game_shadow[1].position = sf::Vector2f(x, (200 + i * 35) + 27);
-        saved_game_shadow[2].position = sf::Vector2f(x + 228, (200 + i * 35) + 27);
-        saved_game_shadow[3].position = sf::Vector2f(x + 228, (200 + i * 35) - 4);
+        saved_game_shadow[0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+        saved_game_shadow[1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+        saved_game_shadow[2].position = sf::Vector2f(x + 228 * gui_scale, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+        saved_game_shadow[3].position = sf::Vector2f(x + 228 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
         saved_game_shadow[0].color = sf::Color::Black;
         saved_game_shadow[1].color = sf::Color::Black;
@@ -230,9 +235,9 @@ void pause_menu::draw_saved_game_buttons(sf::RenderWindow &window, sf::Vector2i 
         }
 
         saved_game_labels[i].setFont(resources->exoplanetaria);
-        saved_game_labels[i].setCharacterSize(16);
+        saved_game_labels[i].setCharacterSize(16 * gui_scale);
         saved_game_labels[i].setFillColor(sf::Color::Black);
-        saved_game_labels[i].setPosition(x + 20, 200 + (i * 35));
+        saved_game_labels[i].setPosition(x + 20 * gui_scale, 300 + i * 35  * gui_scale);
 
         if (saved_game_labels[i].getString() != "")
         {
@@ -246,21 +251,21 @@ void pause_menu::draw_saved_game_buttons(sf::RenderWindow &window, sf::Vector2i 
 // Draws buttons used to delete saved games
 void pause_menu::draw_delete_buttons(sf::RenderWindow &window, sf::Vector2i mouse_position)
 {
-    float x = window.getView().getSize().x / 2 + 100;
+    float x = window.getView().getSize().x / 2 + 100 * gui_scale;
 
     for (unsigned int i = 0; i < saved_game_labels.size(); i++)
     {
         delete_save_buttons[i] = sf::VertexArray(sf::Quads, 4);
-        delete_save_buttons[i][0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        delete_save_buttons[i][1].position = sf::Vector2f(x, (200 + i * 35) + 24);
-        delete_save_buttons[i][2].position = sf::Vector2f(x + 70, (200 + i * 35) + 24);
-        delete_save_buttons[i][3].position = sf::Vector2f(x + 70, (200 + i * 35) - 4);
+        delete_save_buttons[i][0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+        delete_save_buttons[i][1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+        delete_save_buttons[i][2].position = sf::Vector2f(x + 70 * gui_scale, (300 + i * 35 * gui_scale) + 24 * gui_scale);
+        delete_save_buttons[i][3].position = sf::Vector2f(x + 70 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
         sf::VertexArray delete_save_shadow = sf::VertexArray(sf::Quads, 4);
-        delete_save_shadow[0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        delete_save_shadow[1].position = sf::Vector2f(x, (200 + i * 35) + 27);
-        delete_save_shadow[2].position = sf::Vector2f(x + 73, (200 + i * 35) + 27);
-        delete_save_shadow[3].position = sf::Vector2f(x + 73, (200 + i * 35) - 4);
+        delete_save_shadow[0].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) - 4 * gui_scale);
+        delete_save_shadow[1].position = sf::Vector2f(x, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+        delete_save_shadow[2].position = sf::Vector2f(x + 73 * gui_scale, (300 + i * 35 * gui_scale) + 27 * gui_scale);
+        delete_save_shadow[3].position = sf::Vector2f(x + 73 * gui_scale, (300 + i * 35 * gui_scale) - 4 * gui_scale);
 
         delete_save_shadow[0].color = sf::Color::Black;
         delete_save_shadow[1].color = sf::Color::Black;
@@ -283,9 +288,9 @@ void pause_menu::draw_delete_buttons(sf::RenderWindow &window, sf::Vector2i mous
         }
 
         delete_save_labels[i].setFont(resources->exoplanetaria);
-        delete_save_labels[i].setCharacterSize(16);
+        delete_save_labels[i].setCharacterSize(16 * gui_scale);
         delete_save_labels[i].setFillColor(sf::Color::Black);
-        delete_save_labels[i].setPosition(x + 10, 200 + (i * 35));
+        delete_save_labels[i].setPosition(x + 10 * gui_scale, 300 + i * 35 * gui_scale);
         delete_save_labels[i].setString("DELETE");
 
         if (saved_game_labels[i].getString() != "")
@@ -302,23 +307,23 @@ void pause_menu::draw_menu(sf::RenderWindow &window, sf::Vector2i mouse_position
 {
     if (s_menu.visible == false && save_menu_open == false && exit_prompt_open == false && show_notice == false)
     {
-        float y = window.getView().getSize().y / 2 - 80;
+        float y = window.getView().getSize().y / 2 - (80 * gui_scale);
 
         for (unsigned int i = 0; i < buttons.size(); i++)
         {
-            float x = window.getView().getSize().x / 2 - 70;
+            float x = window.getView().getSize().x / 2 - (70 * gui_scale * 1.5);
 
             buttons[i] = sf::VertexArray(sf::Quads, 4);
-            buttons[i][0].position = sf::Vector2f(x, (y + i * 35) - 4);
-            buttons[i][1].position = sf::Vector2f(x, (y + i * 35) + 24);
-            buttons[i][2].position = sf::Vector2f(x + 140, (y + i * 35) + 24);
-            buttons[i][3].position = sf::Vector2f(x + 140, (y + i * 35) - 4);
+            buttons[i][0].position = sf::Vector2f(x, (y + i * 35 * gui_scale) - 4 * gui_scale);
+            buttons[i][1].position = sf::Vector2f(x, (y + i * 35 * gui_scale) + 24 * gui_scale);
+            buttons[i][2].position = sf::Vector2f(x + 140 * gui_scale, (y + i * 35 * gui_scale) + 24 * gui_scale);
+            buttons[i][3].position = sf::Vector2f(x + 140 * gui_scale, (y + i * 35 * gui_scale) - 4 * gui_scale);
 
             sf::VertexArray button_shadow = sf::VertexArray(sf::Quads, 4);
-            button_shadow[0].position = sf::Vector2f(x, (y + i * 35) - 4);
-            button_shadow[1].position = sf::Vector2f(x, (y + i * 35) + 27);
-            button_shadow[2].position = sf::Vector2f(x + 143, (y + i * 35) + 27);
-            button_shadow[3].position = sf::Vector2f(x + 143, (y + i * 35) - 4);
+            button_shadow[0].position = sf::Vector2f(x, (y + i * 35 * gui_scale) - 4 * gui_scale);
+            button_shadow[1].position = sf::Vector2f(x, (y + i * 35 * gui_scale) + 27 * gui_scale);
+            button_shadow[2].position = sf::Vector2f(x + 143 * gui_scale, (y + i * 35 * gui_scale) + 27 * gui_scale);
+            button_shadow[3].position = sf::Vector2f(x + 143 * gui_scale, (y + i * 35 * gui_scale) - 4 * gui_scale);
 
             button_shadow[0].color = sf::Color::Black;
             button_shadow[1].color = sf::Color::Black;
@@ -341,23 +346,23 @@ void pause_menu::draw_menu(sf::RenderWindow &window, sf::Vector2i mouse_position
             }
 
             button_labels[i].setFont(resources->exoplanetaria);
-            button_labels[i].setCharacterSize(16);
+            button_labels[i].setCharacterSize(16 * gui_scale);
             button_labels[i].setFillColor(sf::Color::Black);
             button_labels[i].setString(button_text[i]);
 
             button_values[i].setFont(resources->exoplanetaria);
-            button_values[i].setCharacterSize(14);
+            button_values[i].setCharacterSize(14 * gui_scale);
             button_values[i].setFillColor(sf::Color::White);
 
             if (i == 0)
-                button_labels[i].setPosition(x + 12, y);
+                button_labels[i].setPosition(x + 12 * gui_scale, y);
             else
-                button_labels[i].setPosition(x + 12, y + (i * 35));
+                button_labels[i].setPosition(x + 12 * gui_scale, y + (i * 35 * gui_scale));
 
             if (i == 0)
-                button_values[i].setPosition(x + 180, y);
+                button_values[i].setPosition(x + 180 * gui_scale, y);
             else
-                button_values[i].setPosition(x + 180, y + (i * 35));
+                button_values[i].setPosition(x + 180 * gui_scale, y + (i * 35 * gui_scale));
 
             window.draw(button_shadow);
             window.draw(buttons[i]);
@@ -367,31 +372,33 @@ void pause_menu::draw_menu(sf::RenderWindow &window, sf::Vector2i mouse_position
     }
     else if (exit_prompt_open == true && save_menu_open == false && s_menu.visible == false && show_notice == false)
     {
-        resources->notice.setFont(resources->orbitron);
         resources->notice.setString("EXIT GAME?");
+        resources->notice.setFont(resources->orbitron);
+        resources->notice.setCharacterSize(24 * gui_scale);
         sf::Vector2f text_pos;
-        text_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2);
-        text_pos.y = (window.getView().getSize().y / 2) - 150;
+        text_pos.x = (window.getView().getSize().x / 2) - (80 * gui_scale * 1.5);
+        text_pos.y = (window.getView().getSize().y / 2) - 150 * gui_scale;
         resources->notice.setPosition(text_pos);
         window.draw(resources->notice);
+        resources->notice.setCharacterSize(24);
         resources->notice.setFont(resources->exoplanetaria);
 
-        float x = window.getView().getSize().x / 2 - 70;
-        float y = window.getView().getSize().y / 2 - 75;
+        float x = window.getView().getSize().x / 2 - (70 * gui_scale * 1.5);
+        float y = window.getView().getSize().y / 2 - (75 * gui_scale);
 
         for (unsigned int i = 0; i < exit_buttons.size(); i++)
         {
             exit_buttons[i] = sf::VertexArray(sf::Quads, 4);
-            exit_buttons[i][0].position = sf::Vector2f(x, (y + i * 35) - 4);
-            exit_buttons[i][1].position = sf::Vector2f(x, (y + i * 35) + 24);
-            exit_buttons[i][2].position = sf::Vector2f(x + 130, (y + i * 35) + 24);
-            exit_buttons[i][3].position = sf::Vector2f(x + 130, (y + i * 35) - 4);
+            exit_buttons[i][0].position = sf::Vector2f(x, (y + i * 35 * gui_scale) - 4 * gui_scale);
+            exit_buttons[i][1].position = sf::Vector2f(x, (y + i * 35 * gui_scale) + 24 * gui_scale);
+            exit_buttons[i][2].position = sf::Vector2f(x + 130 * gui_scale, (y + i * 35 * gui_scale) + 24 * gui_scale);
+            exit_buttons[i][3].position = sf::Vector2f(x + 130 * gui_scale, (y + i * 35 * gui_scale) - 4 * gui_scale);
 
             sf::VertexArray button_shadow = sf::VertexArray(sf::Quads, 4);
-            button_shadow[0].position = sf::Vector2f(x, (y + i * 35) - 4);
-            button_shadow[1].position = sf::Vector2f(x, (y + i * 35) + 27);
-            button_shadow[2].position = sf::Vector2f(x + 133, (y + i * 35) + 27);
-            button_shadow[3].position = sf::Vector2f(x + 133, (y + i * 35) - 4);
+            button_shadow[0].position = sf::Vector2f(x, (y + i * 35 * gui_scale) - 4 * gui_scale);
+            button_shadow[1].position = sf::Vector2f(x, (y + i * 35 * gui_scale) + 27 * gui_scale);
+            button_shadow[2].position = sf::Vector2f(x + 133 * gui_scale, (y + i * 35 * gui_scale) + 27 * gui_scale);
+            button_shadow[3].position = sf::Vector2f(x + 133 * gui_scale, (y + i * 35 * gui_scale) - 4 * gui_scale);
 
             button_shadow[0].color = sf::Color::Black;
             button_shadow[1].color = sf::Color::Black;
@@ -414,14 +421,14 @@ void pause_menu::draw_menu(sf::RenderWindow &window, sf::Vector2i mouse_position
             }
 
             exit_button_labels[i].setFont(resources->exoplanetaria);
-            exit_button_labels[i].setCharacterSize(16);
+            exit_button_labels[i].setCharacterSize(16 * gui_scale);
             exit_button_labels[i].setFillColor(sf::Color::Black);
             exit_button_labels[i].setString(abort_button_text[i]);
 
             if (i == 0)
-                exit_button_labels[i].setPosition(x + 38, y);
+                exit_button_labels[i].setPosition(x + 38 * gui_scale, y);
             else
-                exit_button_labels[i].setPosition(x + 38, y + (i * 35));
+                exit_button_labels[i].setPosition(x + 38 * gui_scale, y + (i * 35 * gui_scale));
 
             window.draw(button_shadow);
             window.draw(exit_buttons[i]);
@@ -449,21 +456,25 @@ void pause_menu::draw_save_menu(sf::RenderWindow &window, sf::Vector2i mouse_pos
     {
         sf::Vector2f term_pos;
         sf::Vector2f text_pos;
-        term_pos.x = (window.getView().getSize().x / 2) - (resources->term_sprite.getTexture()->getSize().x / 2);
-        term_pos.y = (window.getView().getSize().y / 2) - 70;
-        text_pos.x = term_pos.x + 8;
-        text_pos.y = term_pos.y + 8;
+        term_pos.x = (window.getView().getSize().x / 2) - (resources->term_sprite.getTexture()->getSize().x / 2) * gui_scale * 1.25;
+        term_pos.y = (window.getView().getSize().y / 2) - 70 * gui_scale;
+        text_pos.x = term_pos.x + 8 * gui_scale;
+        text_pos.y = term_pos.y + 8 * gui_scale;
+        resources->term_sprite.setScale(gui_scale, gui_scale);
+        resources->input_text.setCharacterSize(12 * gui_scale);
         resources->term_sprite.setPosition(term_pos);
         resources->input_text.setPosition(text_pos);
         window.draw(resources->term_sprite);
         window.draw(resources->input_text);
 
         sf::Vector2f notice_pos;
-        notice_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2);
-        notice_pos.y = (window.getView().getSize().y / 2) - 120;
+        notice_pos.x = (window.getView().getSize().x / 2) - (resources->notice.getGlobalBounds().width / 2) * gui_scale * 1.125;
+        notice_pos.y = (window.getView().getSize().y / 2) - 120 * gui_scale;
+        resources->notice.setCharacterSize(24 * gui_scale);
         resources->notice.setString("Enter a name for your saved game.");
         resources->notice.setPosition(notice_pos);
         window.draw(resources->notice);
+        resources->notice.setCharacterSize(24);
 
         // Save Button
         if (resources->save_game_button_sprite.getGlobalBounds().contains(mouse_position.x, mouse_position.y))
@@ -474,9 +485,10 @@ void pause_menu::draw_save_menu(sf::RenderWindow &window, sf::Vector2i mouse_pos
         {
             resources->save_game_button_sprite.setTexture(resources->save_game_button_texture);
         }
-        float b3x = (window.getView().getSize().x / 2) - (resources->save_game_button_texture.getSize().x / 2);
-        float b3y = (window.getView().getSize().y / 2) - 20;
+        float b3x = (window.getView().getSize().x / 2) - (resources->save_game_button_texture.getSize().x / 2) * gui_scale * 1.5;
+        float b3y = (window.getView().getSize().y / 2) - 20 * gui_scale;
         sf::Vector2f b3v(b3x, b3y);
+        resources->save_game_button_sprite.setScale(gui_scale, gui_scale);
         resources->save_game_button_sprite.setPosition(b3v);
         window.draw(resources->save_game_button_sprite);
 
@@ -489,9 +501,10 @@ void pause_menu::draw_save_menu(sf::RenderWindow &window, sf::Vector2i mouse_pos
         {
             resources->cancel_button_sprite.setTexture(resources->cancel_button_texture);
         }
-        float b4x = (window.getView().getSize().x / 2) - (resources->load_game_button_texture.getSize().x / 2);
-        float b4y = (window.getView().getSize().y / 2) + 20;
+        float b4x = (window.getView().getSize().x / 2) - (resources->cancel_button_texture.getSize().x / 2) * gui_scale * 1.5;
+        float b4y = (window.getView().getSize().y / 2) + 20 * gui_scale;
         sf::Vector2f b4v(b4x, b4y);
+        resources->cancel_button_sprite.setScale(gui_scale, gui_scale);
         resources->cancel_button_sprite.setPosition(b4v);
         window.draw(resources->cancel_button_sprite);
     }
@@ -506,9 +519,11 @@ void pause_menu::draw_save_menu(sf::RenderWindow &window, sf::Vector2i mouse_pos
         {
             resources->create_new_button_sprite.setTexture(resources->create_new_button_texture);
         }
-        float bx = (window.getView().getSize().x / 2) - (resources->create_new_button_texture.getSize().x / 2);
-        float by = 150;
+        float bx = (window.getView().getSize().x / 2) - (resources->create_new_button_texture.getSize().x / 2) * gui_scale * 1.5;
+        float by = 150 * gui_scale;
+        by = gui_scale < 1.3 ? 200 * gui_scale : by;
         sf::Vector2f bv(bx, by);
+        resources->create_new_button_sprite.setScale(gui_scale, gui_scale);
         resources->create_new_button_sprite.setPosition(bv);
         window.draw(resources->create_new_button_sprite);
 
@@ -521,9 +536,11 @@ void pause_menu::draw_save_menu(sf::RenderWindow &window, sf::Vector2i mouse_pos
         {
             resources->cancel_button_sprite.setTexture(resources->cancel_button_texture);
         }
-        float cx = (window.getView().getSize().x / 2) - (resources->cancel_button_texture.getSize().x / 2);
-        float cy = 100;
+        float cx = (window.getView().getSize().x / 2) - (resources->cancel_button_texture.getSize().x / 2) * gui_scale * 1.5;
+        float cy = 100 * gui_scale;
+        cy = gui_scale < 1.3 ? 150 * gui_scale : cy;
         sf::Vector2f cv(cx, cy);
+        resources->cancel_button_sprite.setScale(gui_scale, gui_scale);
         resources->cancel_button_sprite.setPosition(cv);
         window.draw(resources->cancel_button_sprite);
 

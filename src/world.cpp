@@ -507,7 +507,7 @@ void world::delete_save_game(std::string cwd, int i, sf::String dir)
     while ((pos = saves.find(delimiter)) != std::string::npos)
     {
         token = saves.substr(0, pos);
-        if (token != dir)
+        if (token != dir && token != "")
         {
             new_saves += token + "\n";
         }

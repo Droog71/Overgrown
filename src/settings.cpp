@@ -6,6 +6,7 @@ bool music = true;
 float difficulty = 0.5f;
 bool invert_mouse = false;
 double audio_volume = 1;
+double gui_scale = 1;
 
 // Loads settings from file
 void load_settings(std::string cwd)
@@ -32,6 +33,10 @@ void load_settings(std::string cwd)
         {
             difficulty = std::stof(value);
         }
+        if (key == "gui_scale")
+        {
+            gui_scale = std::stod(value);
+        }
         saved_settings.erase(0, pos + delimeter.length());
     }
 }
@@ -41,7 +46,8 @@ void save_settings(std::string cwd)
 {
     std::string current_settings = "volume:" + std::to_string(audio_volume) + "\n" +
                                     "music:" + std::to_string(music) + "\n" +
-                                    "difficulty:" + std::to_string(difficulty) + "\n";
+                                    "difficulty:" + std::to_string(difficulty) + "\n" +
+                                    "gui_scale:" + std::to_string(gui_scale);
 
 
     write_to_file(cwd + "/settings.list", current_settings);

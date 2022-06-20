@@ -163,22 +163,23 @@ void tutorial::draw_tutorial(sf::RenderWindow &window, world &game_world)
         if (game_world.areas[index].area_growth.alive == false)
         {
             completed = true;
+            step = 0;
         }
     }
 
     sf::Vector2f bg_pos;
-    bg_pos.x = (window.getView().getSize().x / 2) - 150 - (tutorial_text.getGlobalBounds().width / 2);
-    bg_pos.y = (window.getView().getSize().y / 2) - 170;
+    bg_pos.x = (window.getView().getSize().x / 2) - 150 - (tutorial_text.getGlobalBounds().width / 2) * gui_scale;
+    bg_pos.y = (window.getView().getSize().y / 2) - 170 * gui_scale;
     gui_background_sprite.setPosition(bg_pos);
-    gui_background_sprite.setScale(tutorial_text.getGlobalBounds().width * 0.00075, tutorial_text.getGlobalBounds().height * 0.006);
+    gui_background_sprite.setScale(tutorial_text.getGlobalBounds().width * 0.00075 * gui_scale, tutorial_text.getGlobalBounds().height * 0.006 * gui_scale);
     window.draw(gui_background_sprite);
 
     tutorial_text.setFont(tutorial_font);
-    tutorial_text.setCharacterSize(14);
+    tutorial_text.setCharacterSize(14 * gui_scale);
     tutorial_text.setFillColor(sf::Color::White);
     sf::Vector2f text_pos;
-    text_pos.x = (window.getView().getSize().x / 2) - 125 - (tutorial_text.getGlobalBounds().width / 2);
-    text_pos.y = (window.getView().getSize().y / 2) - 150;
+    text_pos.x = (window.getView().getSize().x / 2) - 125 - (tutorial_text.getGlobalBounds().width / 2) * gui_scale;
+    text_pos.y = (window.getView().getSize().y / 2) - 150 * gui_scale;
     tutorial_text.setPosition(text_pos);
     window.draw(tutorial_text);
 }

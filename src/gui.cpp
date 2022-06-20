@@ -33,11 +33,13 @@ void gui::draw_gui(struct gui_draw_params & params)
     std::string y = std::to_string(params.game_world.player_coordinates.y);
     sf::String player_location_str = "Coordinates: " + x + ", " + y;
     resources->player_location.setString(player_location_str);
+    resources->player_location.setCharacterSize(12 * gui_scale);
     resources->player_location.setPosition(10, params.window.getView().getSize().y * 0.01);
     params.window.draw(resources->player_location);
 
     sf::String power_string = "Sector Power: " + std::to_string(params.area_power);
     resources->area_power.setString(power_string);
+    resources->area_power.setCharacterSize(12 * gui_scale);
     resources->area_power.setPosition(10, params.window.getView().getSize().y * 0.04);
     params.window.draw(resources->area_power);
 
@@ -52,13 +54,15 @@ void gui::draw_gui(struct gui_draw_params & params)
     "          SPORES: " + spores;
 
     resources->inventory.setString(inventory);
-    resources->inventory.setPosition(200, params.window.getView().getSize().y * 0.01);
+    resources->inventory.setCharacterSize(12 * gui_scale);
+    resources->inventory.setPosition(200 * gui_scale, params.window.getView().getSize().y * 0.01);
     params.window.draw(resources->inventory);
 
     if (params.show_fps == true)
     {
         sf::String fps_string = "FPS: " + std::to_string(params.fps);
         resources->fps_counter.setString(fps_string);
+        resources->fps_counter.setCharacterSize(12 * gui_scale);
         resources->fps_counter.setPosition(10, params.window.getView().getSize().y * 0.96);
         params.window.draw(resources->fps_counter);
     }
@@ -145,7 +149,7 @@ void gui::handle_events(struct gui_event_params &params)
         {
             for (unsigned int i = 0; i < build_button_labels.size(); i++)
             {
-                if (build_menu_x < params.window.getView().getSize().x - 300)
+                if (build_menu_x < params.window.getView().getSize().x - (300 + (50 * gui_scale)))
                 {
                     if (build_buttons[i].getBounds().contains(params.mouse.x, params.mouse.y))
                     {
@@ -269,16 +273,16 @@ void gui::draw_menu_buttons(sf::RenderWindow &window, sf::Vector2i mouse_positio
     for (unsigned int i = 0; i < 3; i++)
     {
         menu_buttons[i] = sf::VertexArray(sf::Quads, 4);
-        menu_buttons[i][0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        menu_buttons[i][1].position = sf::Vector2f(x, (200 + i * 35) + 24);
-        menu_buttons[i][2].position = sf::Vector2f(x + 125, (200 + i * 35) + 24);
-        menu_buttons[i][3].position = sf::Vector2f(x + 125, (200 + i * 35) - 4);
+        menu_buttons[i][0].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) - 4 * gui_scale);
+        menu_buttons[i][1].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) + 24 * gui_scale);
+        menu_buttons[i][2].position = sf::Vector2f(x + 125 * gui_scale, (200 + i * 35 * gui_scale) + 24 * gui_scale);
+        menu_buttons[i][3].position = sf::Vector2f(x + 125 * gui_scale, (200 + i * 35 * gui_scale) - 4 * gui_scale);
 
-        sf::VertexArray menu_button_shadow = sf::VertexArray(sf::Quads, 4);
-        menu_button_shadow[0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        menu_button_shadow[1].position = sf::Vector2f(x, (200 + i * 35) + 27);
-        menu_button_shadow[2].position = sf::Vector2f(x + 128, (200 + i * 35) + 27);
-        menu_button_shadow[3].position = sf::Vector2f(x + 128, (200 + i * 35) - 4);
+        sf::VertexArray menu_button_shadow = sf::VertexArray(sf::Quads, 4 * gui_scale);
+        menu_button_shadow[0].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) - 4 * gui_scale);
+        menu_button_shadow[1].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) + 27 * gui_scale);
+        menu_button_shadow[2].position = sf::Vector2f(x + 128 * gui_scale, (200 + i * 35 * gui_scale) + 27 * gui_scale);
+        menu_button_shadow[3].position = sf::Vector2f(x + 128 * gui_scale, (200 + i * 35 * gui_scale) - 4 * gui_scale);
 
         menu_button_shadow[0].color = sf::Color::Black;
         menu_button_shadow[1].color = sf::Color::Black;
@@ -301,9 +305,9 @@ void gui::draw_menu_buttons(sf::RenderWindow &window, sf::Vector2i mouse_positio
         }
 
         menu_button_labels[i].setFont(resources->exoplanetaria);
-        menu_button_labels[i].setCharacterSize(16);
+        menu_button_labels[i].setCharacterSize(16 * gui_scale);
         menu_button_labels[i].setFillColor(sf::Color::Black);
-        menu_button_labels[i].setPosition(x + 20, 200 + (i * 35));
+        menu_button_labels[i].setPosition(x + 20 * gui_scale, 200 + (i * 35 * gui_scale));
 
         if (menu_button_labels[i].getString() != "")
         {
@@ -327,7 +331,7 @@ void gui::draw_build_buttons(sf::RenderWindow &window, build_controller &builder
     {
         build_menu_x += 500 * frame_time;
     }
-    else if (closing_build_menu == false && build_menu_x > window_x - 350)
+    else if (closing_build_menu == false && build_menu_x > window_x - (300 + (50 * gui_scale)))
     {
         build_menu_x -= 500 * frame_time;
     }
@@ -345,16 +349,16 @@ void gui::draw_build_buttons(sf::RenderWindow &window, build_controller &builder
     for (unsigned int i = 0; i < 7; i++)
     {
         build_buttons[i] = sf::VertexArray(sf::Quads, 4);
-        build_buttons[i][0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        build_buttons[i][1].position = sf::Vector2f(x, (200 + i * 35) + 24);
-        build_buttons[i][2].position = sf::Vector2f(x + 125, (200 + i * 35) + 24);
-        build_buttons[i][3].position = sf::Vector2f(x + 125, (200 + i * 35) - 4);
+        build_buttons[i][0].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) - 4 * gui_scale);
+        build_buttons[i][1].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) + 24 * gui_scale);
+        build_buttons[i][2].position = sf::Vector2f(x + 125 * (gui_scale), (200 + i * 35 * gui_scale) + 24 * gui_scale);
+        build_buttons[i][3].position = sf::Vector2f(x + (125 * gui_scale), (200 + i * 35 * gui_scale) - 4 * gui_scale);
 
-        sf::VertexArray build_button_shadow = sf::VertexArray(sf::Quads, 4);
-        build_button_shadow[0].position = sf::Vector2f(x, (200 + i * 35) - 4);
-        build_button_shadow[1].position = sf::Vector2f(x, (200 + i * 35) + 27);
-        build_button_shadow[2].position = sf::Vector2f(x + 128, (200 + i * 35) + 27);
-        build_button_shadow[3].position = sf::Vector2f(x + 128, (200 + i * 35) - 4);
+        sf::VertexArray build_button_shadow = sf::VertexArray(sf::Quads, 4 * gui_scale);
+        build_button_shadow[0].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) - 4 * gui_scale);
+        build_button_shadow[1].position = sf::Vector2f(x, (200 + i * 35 * gui_scale) + 27 * gui_scale);
+        build_button_shadow[2].position = sf::Vector2f(x + (128 * gui_scale), (200 + i * 35 * gui_scale) + 27 * gui_scale);
+        build_button_shadow[3].position = sf::Vector2f(x + (128 * gui_scale), (200 + i * 35 * gui_scale) - 4 * gui_scale);
 
         build_button_shadow[0].color = sf::Color::Black;
         build_button_shadow[1].color = sf::Color::Black;
@@ -377,9 +381,9 @@ void gui::draw_build_buttons(sf::RenderWindow &window, build_controller &builder
         }
 
         build_button_labels[i].setFont(resources->exoplanetaria);
-        build_button_labels[i].setCharacterSize(16);
+        build_button_labels[i].setCharacterSize(16 * gui_scale);
         build_button_labels[i].setFillColor(sf::Color::Black);
-        build_button_labels[i].setPosition(x + 20, 200 + (i * 35));
+        build_button_labels[i].setPosition(x + (20 * gui_scale), 200 + (i * 35 * gui_scale));
 
         if (build_button_labels[i].getString() != "")
         {
@@ -388,7 +392,7 @@ void gui::draw_build_buttons(sf::RenderWindow &window, build_controller &builder
             window.draw(build_button_labels[i]);
         }
 
-        if (build_buttons[i].getBounds().contains(mouse_position.x, mouse_position.y) && build_menu_x < window_x - 300)
+        if (build_buttons[i].getBounds().contains(mouse_position.x, mouse_position.y) && build_menu_x < window_x - 300 * gui_scale)
         {
             std::string cost_str = "COST\n----\n" +
             std::to_string(builder.build_cost[i][0]) + " IRON\n" +
@@ -396,9 +400,9 @@ void gui::draw_build_buttons(sf::RenderWindow &window, build_controller &builder
             std::to_string(builder.build_cost[i][2]) + " SPORES";
             cost.setString(cost_str);
             cost.setFont(resources->exoplanetaria);
-            cost.setCharacterSize(16);
+            cost.setCharacterSize(16 * gui_scale);
             cost.setFillColor(sf::Color::White);
-            cost.setPosition(window.getView().getSize().x - 200, window.getView().getSize().y - 150);
+            cost.setPosition(window.getView().getSize().x - 200 * gui_scale * 0.5, window.getView().getSize().y - 150 * gui_scale);
         }
     }
 
